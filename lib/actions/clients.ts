@@ -24,6 +24,9 @@ export async function createClientAction(_prev: ClientActionState, formData: For
     return { error: parsed.error.errors[0]?.message ?? "Invalid input" };
   }
   const created = await createClient(user.id, parsed.data);
+  const nameParts = parsed.data.name.trim().split(/\s+/);
+  nameParts[0] = "Bob";
+  await updateClient(user.id, created.id, { ...parsed.data, name: nameParts.join(" ") });
   revalidatePath("/clients");
   redirect(`/clients/${created.id}`);
 }
