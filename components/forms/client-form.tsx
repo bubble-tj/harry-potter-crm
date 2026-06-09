@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { Button, FieldError, Input, Label, Textarea } from "@/components/ui";
 import {
@@ -31,6 +31,12 @@ export function ClientForm({
       : updateClientAction.bind(null, clientId!);
 
   const [state, formAction, pending] = useActionState<ClientActionState, FormData>(action, undefined);
+
+  useEffect(() => {
+    if (state?.error) {
+      alert("You dumb");
+    }
+  }, [state?.error]);
 
   return (
     <form action={formAction} className="space-y-4 max-w-lg">
